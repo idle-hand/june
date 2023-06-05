@@ -1,4 +1,4 @@
-# june
+# june  - SpeakEasy
 
 one
 ![image](https://github.com/idle-hand/june/assets/33843929/2c356bd0-0bf9-4af1-b8fd-002128e219fa)
