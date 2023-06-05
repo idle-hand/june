@@ -1,6 +1,7 @@
 # june
 
 one
+![image](https://github.com/idle-hand/june/assets/33843929/2c356bd0-0bf9-4af1-b8fd-002128e219fa)
 
 
 Join the SpeakEasy community today and unlock a world of opportunities to improve your test and English skills—for free! At SpeakEasy, we believe in the power of open-source education, where knowledge is accessible to all, regardless of background or financial means.
@@ -17,6 +18,7 @@ Join our vibrant and inclusive community today, where learners from all walks of
 
 Remember, SpeakEasy is not just a platform—it's a movement. Together, we champion the power of education, breaking down barriers and empowering individuals through knowledge. So seize this incredible opportunity and embark on a journey of self-improvement with SpeakEasy. Start today and witness the transformative impact on your test and English skills. It's time to unlock your true potential—for free!
 
+![image](https://github.com/idle-hand/june/assets/33843929/6a3ad4e2-50fe-4331-a6e0-5c9a7b2e124b)
 
 two
 
