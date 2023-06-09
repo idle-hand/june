@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <style>
+    body {
+      background-color: #f1f1f1;
+      font-family: "Roboto", Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    h2 {
+      color: #333;
+      margin-top: 0;
+    }
+
+    button {
+      background-color: #009688;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+    .score {
+      font-weight: bold;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 20% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 8px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      margin-top: 0;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      width: 45%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Quiz</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+    <button onclick="nextQuestion()"><i class="material-icons">arrow_forward</i> Next</button>
+    <p id="score"></p>
+  </div>
+
+  <!-- Modal Pop-up -->
+  <div id="quizCompleteModal" class="modal">
+    <div class="modal-content">
+      <h3>Quiz Completed!</h3>
+      <p class="score">Your score: <span id="finalScore"></span> / <span id="totalQuestions"></span></p>
+      <p>Passing criteria for the real test:</p>
+      <p>Score at least 75% on 20 questions with a 30-minute time limit.</p>
+      <div class="modal-buttons">
+        <button onclick="restartQuiz()">Go Back</button>
+        <button onclick="addMoreQuestions()">More Questions</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "A Member of Parliament from Montreal announces that she will spend her weekend in her electoral district. This means she would be:",
+        options: ["In her office on Parliament Hill.", "Visiting the province of Quebec.", "In the part of Montreal where she was elected.", "Going on a vacation."],
+        answer: 2
+      },
+      {
+        text: "What country is Canada’s largest trading partner?",
+        options: ["Mexico", "United States of America", "China", "Japan"],
+        answer: 1
+      },
+      {
+        text: "What did the Canadian Pacific Railway symbolize?",
+        options: ["Easy access to the West Coast", "What can be achieved by working together", "Unity", "Ribbons of steel"],
+        answer: 2
+      },
+      {
+        text: "What did the Fathers of Confederation do?",
+        options: ["They worked together to establish a new country, the Dominion of Canada", "They were explorers who formed an expedition to survey Northern Canada", "They formed a republic state in Canada", "They were a group of politicians that tried to unite Canada to the United States"],
+        answer: 0
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function displayQuestion() {
+      const questionElement = document.getElementById("question");
+      const optionsElement = document.getElementById("options");
+      const scoreElement = document.getElementById("score");
+
+      questionElement.textContent = questions[currentQuestion].text;
+
+      optionsElement.innerHTML = "";
+      questions[currentQuestion].options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "w3-btn w3-block w3-margin-bottom";
+        button.textContent = option;
+        button.onclick = () => checkAnswer(index);
+        optionsElement.appendChild(button);
+      });
+
+      scoreElement.textContent = "Score: " + score;
+    }
+
+    function checkAnswer(selectedIndex) {
+      if (selectedIndex === questions[currentQuestion].answer) {
+        score++;
+      }
+
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const quizContainer = document.querySelector(".container");
+      quizContainer.style.display = "none";
+
+      const quizCompleteModal = document.getElementById("quizCompleteModal");
+      const finalScoreElement = document.getElementById("finalScore");
+      const totalQuestionsElement = document.getElementById("totalQuestions");
+      const modal = document.querySelector(".modal");
+
+      finalScoreElement.textContent = score;
+      totalQuestionsElement.textContent = questions.length;
+
+      modal.style.display = "block";
+    }
+
+    function restartQuiz() {
+      const quizContainer = document.querySelector(".container");
+      const quizCompleteModal = document.getElementById("quizCompleteModal");
+      const modal = document.querySelector(".modal");
+
+      quizContainer.style.display = "block";
+      quizCompleteModal.style.display = "none";
+      modal.style.display = "none";
+
+      currentQuestion = 0;
+      score = 0;
+      displayQuestion();
+    }
+
+    function addMoreQuestions() {
+      // Add your logic here for adding more questions to the quiz
+      // This is just a placeholder function
+      alert("Add More Questions - Functionality Placeholder");
+    }
+
+    displayQuestion();
+  </script>
+</body>
+</html>
