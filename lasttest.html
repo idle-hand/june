@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Canadian Provinces and Capitals Quiz</title>
+  <script>
+    var questions = [
+      { question: "What is the capital of Alberta?", options: ["Edmonton", "Calgary", "Banff"], answer: "Edmonton" },
+      { question: "What is the capital of British Columbia?", options: ["Vancouver", "Victoria", "Kelowna"], answer: "Victoria" },
+      { question: "What is the capital of Manitoba?", options: ["Winnipeg", "Brandon", "Churchill"], answer: "Winnipeg" },
+      // Add more questions and answers here
+    ];
+
+    var currentQuestion = 0;
+    var score = 0;
+
+    function loadQuestion() {
+      var questionContainer = document.getElementById("question-container");
+      var question = questions[currentQuestion];
+
+      questionContainer.innerHTML = "";
+      questionContainer.innerHTML += "<h2>" + question.question + "</h2>";
+
+      var options = question.options;
+      for (var i = 0; i < options.length; i++) {
+        questionContainer.innerHTML += '<input type="radio" name="answer" value="' + options[i] + '">' + options[i] + '<br>';
+      }
+
+      questionContainer.innerHTML += '<br><button onclick="checkAnswer()">Submit</button>';
+    }
+
+    function checkAnswer() {
+      var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+      if (!selectedAnswer) {
+        alert("Please select an answer.");
+        return;
+      }
+
+      var userAnswer = selectedAnswer.value;
+      var correctAnswer = questions[currentQuestion].answer;
+
+      if (userAnswer === correctAnswer) {
+        score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      var resultContainer = document.getElementById("result-container");
+      resultContainer.innerHTML = "<h2>Quiz Result</h2>";
+      resultContainer.innerHTML += "<p>Score: " + score + "/" + questions.length + "</p>";
+    }
+  </script>
+</head>
+<body>
+  <h1>Canadian Provinces and Capitals Quiz</h1>
+  <div id="question-container"></div>
+  <div id="result-container"></div>
+
+  <script>
+    loadQuestion();
+  </script>
+</body>
+</html>
