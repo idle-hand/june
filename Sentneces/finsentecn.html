@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Selection Game</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.5.1/material.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #757575;
+        }
+
+        .sentence {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #757575;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container container">
+        <h1 class="w3-text-indigo w3-center title">Word Selection Game</h1>
+        <div class="w3-card w3-white w3-padding">
+            <div class="sentence w3-margin-bottom">
+                The _____ is on the table.
+            </div>
+            <div class="options">
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="book">
+                    Book
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="pen">
+                    Pen
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="glass">
+                    Glass
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="chair">
+                    Chair
+                </label>
+            </div>
+            <div class="score w3-center">Score: 0</div>
+            <div class="button-container">
+                <button class="w3-btn w3-indigo w3-round" onclick="checkAnswer()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var correctWord = "book";
+        var score = 0;
+
+        function checkAnswer() {
+            var selectedWord = document.querySelector('input[name="word"]:checked');
+
+            if (selectedWord && selectedWord.value === correctWord) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect!");
+            }
+
+            document.querySelector(".score").textContent = "Score: " + score;
+            resetOptions();
+        }
+
+        function resetOptions() {
+            var options = document.querySelectorAll('input[name="word"]');
+            for (var i = 0; i < options.length; i++) {
+                options[i].checked = false;
+            }
+        }
+    </script>
+</body>
+</html>

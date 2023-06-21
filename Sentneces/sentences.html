@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Selection Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .sentence {
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #score {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Selection Game</h1>
+    <div class="sentence" id="sentence"></div>
+    <div class="options" id="options"></div>
+    <div>
+        <button onclick="checkAnswer()">Submit</button>
+        <span id="score">Score: 0</span>
+    </div>
+
+    <script>
+        var sentences = [
+            {
+                sentence: "The <span id='missing-word'></span> is on the table.",
+                options: ["book", "pen", "glass", "chair"]
+            },
+            {
+                sentence: "She played the <span id='missing-word'></span> beautifully.",
+                options: ["piano", "guitar", "violin", "flute"]
+            },
+            {
+                sentence: "I need to buy some <span id='missing-word'></span> for the recipe.",
+                options: ["eggs", "milk", "sugar", "flour"]
+            },
+            {
+                sentence: "We decided to go for a <span id='missing-word'></span> in the park.",
+                options: ["walk", "run", "picnic", "swim"]
+            },
+            {
+                sentence: "The <span id='missing-word'></span> is sleeping under the tree.",
+                options: ["cat", "dog", "rabbit", "squirrel"]
+            }
+        ];
+
+        var currentSentenceIndex = 0;
+        var score = 0;
+
+        function initializeGame() {
+            currentSentenceIndex = 0;
+            score = 0;
+            updateSentence();
+            updateOptions();
+            updateScore();
+        }
+
+        function updateSentence() {
+            var sentenceElement = document.getElementById("sentence");
+            sentenceElement.innerHTML = sentences[currentSentenceIndex].sentence;
+        }
+
+        function updateOptions() {
+            var optionsElement = document.getElementById("options");
+            optionsElement.innerHTML = "";
+
+            var options = sentences[currentSentenceIndex].options;
+            for (var i = 0; i < options.length; i++) {
+                var option = options[i];
+                var optionElement = document.createElement("div");
+                optionElement.className = "option";
+                optionElement.innerHTML = '<input type="checkbox" name="word" value="' + option + '"> ' + option;
+                optionsElement.appendChild(optionElement);
+            }
+        }
+
+        function checkAnswer() {
+            var selectedWords = document.querySelectorAll('input[name="word"]:checked');
+            var selectedWordValues = Array.from(selectedWords).map(function(word) {
+                return word.value;
+            });
+
+            var correctOptions = sentences[currentSentenceIndex].options;
+            var isCorrect = correctOptions.every(function(option) {
+                return selectedWordValues.includes(option);
+            });
+
+            if (isCorrect) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect!");
+            }
+
+            updateScore();
+            nextSentence();
+        }
+
+        function updateScore() {
+            var scoreElement = document.getElementById("score");
+            scoreElement.textContent = "Score: " + score;
+        }
+
+        function nextSentence() {
+            if (currentSentenceIndex < sentences.length - 1) {
+                currentSentenceIndex++;
+                updateSentence();
+                updateOptions();
+            } else {
+                alert("Game Over! Final Score: " + score);
+                initializeGame();
+            }
+        }
+
+        // Initialize the game
+        initializeGame();
+    </script>
+</body>
+</html>
