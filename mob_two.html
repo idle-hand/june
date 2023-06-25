@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Selection Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.5.1/material.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #757575;
+        }
+
+        .sentence {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #757575;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container container">
+        <h1 class="w3-text-indigo w3-center title">Word Selection Game</h1>
+        <div class="w3-card w3-white w3-padding">
+            <div class="sentence w3-margin-bottom">
+                <span id="question"></span>
+            </div>
+            <div class="options" id="options"></div>
+            <div class="score w3-center">Score: <span id="score">0</span></div>
+            <div class="button-container">
+                <button class="w3-btn w3-indigo w3-round" onclick="checkAnswer()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var questions = [
+    {
+        question: "Canada is the _____ country in the world by land area.",
+        options: ["largest", "smallest", "second-largest", "third-largest"],
+        correctWord: "second-largest"
+    },
+    {
+        question: "Canada has the longest _____ of any country in the world.",
+        options: ["border", "coastline", "river", "mountain range"],
+        correctWord: "coastline"
+    },
+    {
+        question: "Canada is home to the world's longest _____, Yonge Street in Toronto.",
+        options: ["street", "bridge", "tunnel", "canal"],
+        correctWord: "street"
+    },
+    {
+        question: "Canada has more _____ than any other country, with over 2 million lakes.",
+        options: ["mountains", "rivers", "forests", "lakes"],
+        correctWord: "lakes"
+    },
+    {
+        question: "Canada is _____, with English and French as its official languages.",
+        options: ["monolingual", "bilingual", "multilingual", "trilingual"],
+        correctWord: "bilingual"
+    },
+    {
+        question: "Canada's national sport is ice _____.",
+        options: ["hockey", "soccer", "basketball", "baseball"],
+        correctWord: "hockey"
+    },
+    {
+        question: "Canada is known for its stunning natural landscapes, including the Rocky Mountains and _____ Falls.",
+        options: ["Victoria", "Niagara", "Angel", "Iguazu"],
+        correctWord: "Niagara"
+    },
+    {
+        question: "Canada has a population of over _____ million people.",
+        options: ["20", "30", "37", "50"],
+        correctWord: "37"
+    },
+    {
+        question: "Canada is the world's largest producer of maple _____.",
+        options: ["leaves", "trees", "syrup", "pancakes"],
+        correctWord: "syrup"
+    },
+    {
+        question: "Canada has a reputation for being one of the _____ countries in the world.",
+        options: ["friendliest", "safest", "richest", "oldest"],
+        correctWord: "friendliest"
+    }
+];
+
+
+
+        var currentQuestionIndex = 0;
+        var score = 0;
+
+        var questionElement = document.getElementById("question");
+        var optionsElement = document.getElementById("options");
+        var scoreElement = document.getElementById("score");
+
+        displayQuestion();
+
+        function displayQuestion() {
+            var currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = "";
+
+            currentQuestion.options.forEach(function (option) {
+                var label = document.createElement("label");
+                label.className = "w3-text-indigo";
+
+                var input = document.createElement("input");
+                input.className = "w3-radio";
+                input.type = "radio";
+                input.name = "word";
+                input.value = option;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(" " + option));
+
+                optionsElement.appendChild(label);
+            });
+        }
+
+        function checkAnswer() {
+            var selectedWord = document.querySelector('input[name="word"]:checked');
+
+            if (selectedWord && selectedWord.value === questions[currentQuestionIndex].correctWord) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect!");
+            }
+
+            scoreElement.textContent = score;
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                alert("Quiz finished! Final score: " + score);
+                resetOptions();
+                score = 0;
+                currentQuestionIndex = 0;
+                scoreElement.textContent = score;
+            }
+        }
+
+        function resetOptions() {
+            var options = document.querySelectorAll('input[name="word"]');
+            options.forEach(function (option) {
+                option.checked = false;
+            });
+        }
+    </script>
+</body>
+</html>
