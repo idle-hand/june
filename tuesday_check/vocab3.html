@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English Vocabulary Quiz</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+
+    .quiz-option {
+      margin-bottom: 10px;
+    }
+
+    .quiz-option input[type="radio"] {
+      display: none;
+    }
+
+    .quiz-option label {
+      display: block;
+      padding: 10px;
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    .quiz-option label:hover {
+      background-color: #ddd;
+    }
+
+    .quiz-option input[type="radio"]:checked + label {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .quiz-result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    var vocabulary = [
+      { word: "comprehend", definition: "to understand or grasp the meaning of something" },
+      { word: "synonym", definition: "a word that has the same or similar meaning as another word" },
+      { word: "contradict", definition: "to assert the opposite or contrary of something" },
+      { word: "ambiguous", definition: "having multiple possible meanings or interpretations" },
+      { word: "fluent", definition: "able to speak or write smoothly and easily in a language" },
+      // Add more words and definitions here
+    ];
+
+    var currentQuestion = 0;
+    var score = 0;
+
+    function loadQuestion() {
+      var questionContainer = document.getElementById("question-container");
+      var question = vocabulary[currentQuestion];
+
+      questionContainer.innerHTML = "";
+      questionContainer.innerHTML += "<h2 class='quiz-question'>" + question.word + "</h2>";
+      questionContainer.innerHTML += "<p>" + question.definition + "</p>";
+
+      var options = getRandomOptions(question.word);
+      for (var i = 0; i < options.length; i++) {
+        var optionHTML = '<input type="radio" name="answer" id="option' + i + '" value="' + options[i] + '">';
+        optionHTML += '<label class="w3-button w3-block w3-border quiz-option" for="option' + i + '">' + options[i] + '</label>';
+        questionContainer.innerHTML += optionHTML;
+      }
+
+      questionContainer.innerHTML += '<br><button class="w3-button w3-teal" onclick="checkAnswer()">Submit</button>';
+    }
+
+    function getRandomOptions(correctAnswer) {
+      var options = [correctAnswer];
+
+      while (options.length < 4) {
+        var randomIndex = Math.floor(Math.random() * vocabulary.length);
+        var randomWord = vocabulary[randomIndex].word;
+
+        if (!options.includes(randomWord)) {
+          options.push(randomWord);
+        }
+      }
+
+      return shuffleArray(options);
+    }
+
+    function shuffleArray(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    function checkAnswer() {
+      var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+      if (!selectedAnswer) {
+        alert("Please select an answer.");
+        return;
+      }
+
+      var userAnswer = selectedAnswer.value;
+      var correctAnswer = vocabulary[currentQuestion].word;
+
+      if (userAnswer === correctAnswer) {
+        score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < vocabulary.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      var resultContainer = document.getElementById("result-container");
+      resultContainer.innerHTML = "<h2>Quiz Result</h2>";
+      resultContainer.innerHTML += "<p>Score: " + score + "/" + vocabulary.length + "</p>";
+    }
+  </script>
+</head>
+<body>
+  <div class="w3-container quiz-container">
+    <h1>English Vocabulary Quiz</h1>
+    <div id="question-container"></div>
+    <div id="result-container"></div>
+  </div>
+
+  <script>
+    loadQuestion();
+  </script>
+</body>
+</html>

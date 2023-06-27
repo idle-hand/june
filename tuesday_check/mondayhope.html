@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English Vocabulary Quiz</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@13.0.0/dist/material-components-web.min.css">
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: #1976d2;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .footer {
+      background-color: #1976d2;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-option label {
+      display: block;
+      padding: 10px;
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    .quiz-option label:hover {
+      background-color: #ddd;
+    }
+
+    .quiz-result {
+      display: none;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/material-components-web@13.0.0/dist/material-components-web.min.js"></script>
+  <script>
+    var vocabulary = [
+      { word: "comprehend", definition: "to understand or grasp the meaning of something" },
+      { word: "synonym", definition: "a word that has the same or similar meaning as another word" },
+      { word: "contradict", definition: "to assert the opposite or contrary of something" },
+      { word: "ambiguous", definition: "having multiple possible meanings or interpretations" },
+      { word: "fluent", definition: "able to speak or write smoothly and easily in a language" },
+      { word: "diligent", definition: "showing careful and persistent effort or work" },
+      { word: "eloquent", definition: "expressing oneself fluently and persuasively" },
+      { word: "meticulous", definition: "showing great attention to detail; very careful and precise" },
+      { word: "perplexing", definition: "causing confusion or puzzlement" },
+      { word: "quizzical", definition: "showing mild or amused puzzlement" },
+      // Add more words and definitions here
+    ];
+
+    var currentQuestion = 0;
+    var score = 0;
+    var selectedOption = null;
+
+    function loadQuestion() {
+      var questionContainer = document.getElementById("question-container");
+      var question = vocabulary[currentQuestion];
+
+      questionContainer.innerHTML = "";
+      questionContainer.innerHTML += "<h2 class='quiz-question'>" + question.definition + "</h2>";
+
+      var options = getRandomOptions(question.word);
+      var optionsContainer = document.createElement("div");
+      optionsContainer.className = "quiz-options";
+      for (var i = 0; i < options.length; i++) {
+        var optionHTML = '<button class="mdc-button mdc-button--raised mdc-button--compact mdc-ripple-upgraded quiz-option" onclick="checkAnswer(\'' + options[i] + '\')">' + options[i] + '</button>';
+        optionsContainer.innerHTML += optionHTML;
+      }
+
+      questionContainer.appendChild(optionsContainer);
+    }
+
+    function getRandomOptions(correctAnswer) {
+      var options = [correctAnswer];
+
+      while (options.length < 4) {
+        var randomIndex = Math.floor(Math.random() * vocabulary.length);
+        var randomWord = vocabulary[randomIndex].word;
+
+        if (!options.includes(randomWord)) {
+          options.push(randomWord);
+        }
+      }
+
+      return shuffleArray(options);
+    }
+
+    function shuffleArray(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    function checkAnswer(userAnswer) {
+      if (selectedOption) {
+        return;
+      }
+
+      selectedOption = userAnswer;
+      var correctAnswer = vocabulary[currentQuestion].word;
+
+      if (userAnswer === correctAnswer) {
+        score++;
+      }
+
+      var questionContainer = document.getElementById("question-container");
+      var resultContainer = document.getElementById("result-container");
+
+      questionContainer.innerHTML = "";
+      questionContainer.innerHTML += "<h2 class='quiz-question'>" + vocabulary[currentQuestion].definition + "</h2>";
+
+      resultContainer.style.display = "block";
+      resultContainer.innerHTML = "<p class='quiz-result'>Score: " + score + "/" + vocabulary.length + "</p>";
+
+      currentQuestion++;
+      if (currentQuestion < vocabulary.length) {
+        setTimeout(function () {
+          selectedOption = null;
+          loadQuestion();
+        }, 1500);
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="header">
+    <h1>SpeakEasy</h1>
+  </div>
+
+  <div class="quiz-container">
+    <div id="question-container"></div>
+    <div id="result-container" class="quiz-result"></div>
+  </div>
+
+  <div class="footer">
+    <p>The Computer Tutor</p>
+  </div>
+
+  <script>
+    loadQuestion();
+  </script>
+</body>
+</html>

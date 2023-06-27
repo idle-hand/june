@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Canadian Provinces and Capitals Quiz</title>
+  <script>
+    function checkAnswers() {
+      var answers = document.querySelectorAll('.answer');
+      var correctCount = 0;
+
+      for (var i = 0; i < answers.length; i++) {
+        if (answers[i].value.trim().toLowerCase() === answers[i].dataset.answer.trim().toLowerCase()) {
+          answers[i].classList.add('correct');
+          correctCount++;
+        } else {
+          answers[i].classList.add('incorrect');
+        }
+        answers[i].disabled = true;
+      }
+
+      document.getElementById('result').textContent = 'Correct Answers: ' + correctCount + '/' + answers.length;
+    }
+  </script>
+  <style>
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Canadian Provinces and Capitals Quiz</h1>
+  <form>
+    <p>What is the capital of Alberta?</p>
+    <input type="text" class="answer" data-answer="Edmonton">
+
+    <p>What is the capital of British Columbia?</p>
+    <input type="text" class="answer" data-answer="Victoria">
+
+    <p>What is the capital of Manitoba?</p>
+    <input type="text" class="answer" data-answer="Winnipeg">
+
+    <p>What is the capital of New Brunswick?</p>
+    <input type="text" class="answer" data-answer="Fredericton">
+
+    <p>What is the capital of Newfoundland and Labrador?</p>
+    <input type="text" class="answer" data-answer="St. John's">
+
+    <p>What is the capital of Nova Scotia?</p>
+    <input type="text" class="answer" data-answer="Halifax">
+
+    <p>What is the capital of Ontario?</p>
+    <input type="text" class="answer" data-answer="Toronto">
+
+    <p>What is the capital of Prince Edward Island?</p>
+    <input type="text" class="answer" data-answer="Charlottetown">
+
+    <p>What is the capital of Quebec?</p>
+    <input type="text" class="answer" data-answer="Quebec City">
+
+    <p>What is the capital of Saskatchewan?</p>
+    <input type="text" class="answer" data-answer="Regina">
+
+    <p>What is the capital of Yukon?</p>
+    <input type="text" class="answer" data-answer="Whitehorse">
+
+    <p>What is the capital of Nunavut?</p>
+    <input type="text" class="answer" data-answer="Iqaluit">
+
+    <p>What is the capital of Northwest Territories?</p>
+    <input type="text" class="answer" data-answer="Yellowknife">
+
+    <br>
+    <button type="button" onclick="checkAnswers()">Submit</button>
+  </form>
+
+  <div id="result"></div>
+</body>
+</html>

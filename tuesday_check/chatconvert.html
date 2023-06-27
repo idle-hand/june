@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caps Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .score {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .result {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2>Caps Quiz</h2>
+    </div>
+
+    <script>
+        var cap = ['Ottawa','Edmonton','Victoria','Winnipeg','Fredericton','St. Johns','Halifax','Toronto',
+            'Charlottetown','Quebec City','Regina','Whitehorse','Iqaluit','Yellowknife'];
+        var states = ['Canada','Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Nova Scotia',
+            'Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon','Nunavut','Northwest Territories'];
+
+        var shortList = [' ', ' ', ' ', ' ', ' '];
+
+        var score = 0;
+        var count = 0;
+
+        var quizContainer = document.getElementById("quiz-container");
+
+        function showChoice() {
+            var selectedOption = document.querySelector('input[name="option"]:checked').value;
+            
+            if (selectedOption === cap[count]) {
+                score++;
+            }
+          
+            count++;
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            if (count >= 14) {
+                quizContainer.innerHTML = "<h2>Quiz Completed</h2>" +
+                    "<p>Your final score is: " + score + " out of " + count + "</p>";
+                return;
+            }
+
+            var shuffledList = cap.slice().sort(function() { return 0.5 - Math.random(); });
+            shortList = shuffledList.slice(0, 5);
+
+            var index = shortList.indexOf(cap[count]);
+            if (index > -1) {
+                shortList[index] = shuffledList[5];
+            }
+
+            var randomIndex = Math.floor(Math.random() * 5);
+            shortList[randomIndex] = cap[count];
+
+            var quizContent = "<h3>The Capital of " + states[count] + " is?</h3>" +
+                "<form id='quiz-form'>" +
+                "<div class='question'>";
+
+            for (var i = 0; i < shortList.length; i++) {
+                quizContent += "<label><input type='radio' name='option' value='" + shortList[i] + "'>" + shortList[i] + "</label>";
+            }
+
+            quizContent += "</div>" +
+                "<input type='button' value='Next' onclick='showChoice()'>" +
+                "</form>" +
+                "<div class='score'>Score: " + score + "</div>" +
+                "<div class='result'>You have answered " + score + " of " + count + " correctly.</div>";
+
+            quizContainer.innerHTML = quizContent;
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Selection Game</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.5.1/material.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #757575;
+        }
+
+        .sentence {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #757575;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container container">
+        <h1 class="w3-text-indigo w3-center title">Word Selection Game</h1>
+        <div class="w3-card w3-white w3-padding">
+            <div class="sentence w3-margin-bottom">
+                <span id="sentence"></span>
+            </div>
+            <div class="options" id="options">
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="">
+                    Option 1
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="">
+                    Option 2
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="">
+                    Option 3
+                </label>
+                <label class="w3-text-indigo">
+                    <input class="w3-radio" type="radio" name="word" value="">
+                    Option 4
+                </label>
+            </div>
+            <div class="score w3-center">Score: 0</div>
+            <div class="button-container">
+                <button class="w3-btn w3-indigo w3-round" onclick="checkAnswer()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.3.4/typescript.min.js"></script>
+    <script>
+        const questions = [
+            {
+                sentence: "The _____ is on the table.",
+                options: ["book", "pen", "glass", "chair"],
+                correctIndex: 0
+            },
+            {
+                sentence: "She played the _____ beautifully.",
+                options: ["piano", "guitar", "violin", "flute"],
+                correctIndex: 2
+            },
+            {
+                sentence: "I need to buy some _____ for the recipe.",
+                options: ["eggs", "milk", "sugar", "flour"],
+                correctIndex: 3
+            },
+            {
+                sentence: "We decided to go for a _____ in the park.",
+                options: ["walk", "run", "picnic", "swim"],
+                correctIndex: 2
+            },
+            {
+                sentence: "The _____ is sleeping under the tree.",
+                options: ["cat", "dog", "rabbit", "squirrel"],
+                correctIndex: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const sentenceElement = document.getElementById("sentence");
+        const optionsElement = document.getElementById("options");
+        const scoreElement = document.querySelector(".score");
+
+        function initializeGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            updateQuestion();
+            updateOptions();
+            updateScore();
+        }
+
+        function updateQuestion() {
+            const question = questions[currentQuestionIndex];
+            sentenceElement.textContent = question.sentence;
+        }
+
+        function updateOptions() {
+            const question = questions[currentQuestionIndex];
+            const options = question.options;
+
+            optionsElement.innerHTML = "";
+            options.forEach((option, index) => {
+                const label = document.createElement("label");
+                label.className = "w3-text-indigo";
+
+                const input = document.createElement("input");
+                input.className = "w3-radio";
+                input.type = "radio";
+                input.name = "word";
+                input.value = option;
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(option));
+                optionsElement.appendChild(label);
+            });
+        }
+
+        function checkAnswer() {
+            const selectedWord = document.querySelector('input[name="word"]:checked');
+            if (!selectedWord) {
+                alert("Please select an option.");
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const correctIndex = question.correctIndex;
+            const selectedOptionIndex = question.options.indexOf(selectedWord.value);
+
+            if (selectedOptionIndex === correctIndex) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect!");
+            }
+
+            updateScore();
+            nextQuestion();
+        }
+
+        function updateScore() {
+            scoreElement.textContent = "Score: " + score;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                updateQuestion();
+                updateOptions();
+            } else {
+                alert("Game Over! Final Score: " + score);
+                initializeGame();
+            }
+        }
+
+        // Initialize the game
+        initializeGame();
+    </script>
+</body>
+</html>

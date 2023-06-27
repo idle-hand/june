@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Selection Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .sentence {
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #score {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Selection Game</h1>
+    <div class="sentence" id="sentence">
+        The <span id="missing-word"></span> is on the table.
+    </div>
+    <div class="options">
+        <div class="option"><input type="radio" name="word" value="book"> Book</div>
+        <div class="option"><input type="radio" name="word" value="pen"> Pen</div>
+        <div class="option"><input type="radio" name="word" value="glass"> Glass</div>
+        <div class="option"><input type="radio" name="word" value="chair"> Chair</div>
+    </div>
+    <div>
+        <button onclick="checkAnswer()">Submit</button>
+        <span id="score">Score: 0</span>
+    </div>
+
+    <script>
+        var correctWord = "book";
+        var score = 0;
+
+        function checkAnswer() {
+            var selectedWord = document.querySelector('input[name="word"]:checked');
+
+            if (selectedWord && selectedWord.value === correctWord) {
+                score++;
+                alert("Correct!");
+            } else {
+                alert("Incorrect!");
+            }
+
+            document.getElementById("score").textContent = "Score: " + score;
+            resetOptions();
+        }
+
+        function resetOptions() {
+            var options = document.querySelectorAll('input[name="word"]');
+            for (var i = 0; i < options.length; i++) {
+                options[i].checked = false;
+            }
+        }
+    </script>
+</body>
+</html>
